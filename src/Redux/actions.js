@@ -11,7 +11,9 @@ export function decrement () {
   }
 }
 export function async_increment () {
-  return {
-    type: ASYNC_INCREMENT
+  return function (dispatch) {
+    setTimeout(() => {
+      dispatch(increment())
+    }, 1500)
   }
 }
