@@ -1,32 +1,34 @@
 import './styles.css'
-//---START___исходное приложение на JS состояние JS хранится внутри компонента
+import { createStore } from './createStore'
+import { rootReducer } from './Redux/rootReducer'
+
 const counter = document.getElementById('counter')
 const addBtn = document.getElementById('add')
 const subBtn = document.getElementById('sub')
 const asyncBtn = document.getElementById('async')
 const theme = document.getElementById('theme')
 
-let state = 0
+// создадим функцию createStore в отдельном файле.
+//создадим store
 
-function render () {
-  counter.textContent = state.toString()
-}
+const store = createStore(rootReducer, 0)
+
 addBtn.addEventListener('click', () => {
-  state++
-  render()
+  store.dispatch({ type: 'INCREMENT' })
 })
 subBtn.addEventListener('click', () => {
-  state--
-  render()
+  store.dispatch({ type: 'DECREMENT' })
 })
-asyncBtn.addEventListener('click', () => {
-  setTimeout(() => {
-    state++
-    render()
-  }, 2000)
-})
+asyncBtn.addEventListener('click', () => {})
 theme.addEventListener('click', () => {
-  document.body.classList.toggle('dark')
+  // document.body.classList.toggle('dark')
 })
-render()
-//---START___исходное приложение на JS состояние JS хранится внутри компонента
+
+//подписываемся на изменения. Отрисовывается все, кроме изначального 0.
+store.subscribe(() => {
+  const state = store.getState()
+  counter.textContent = state
+})
+// чтобы отрисовался изналчальное значение 0, передадим в диспатч
+//объект action с несуществующим типом (по умолчанию вернется стейт)
+store.dispatch({ type: 'INIT_APPLICATION' })
