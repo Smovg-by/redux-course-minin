@@ -14,7 +14,7 @@ const counter = document.getElementById('counter')
 const addBtn = document.getElementById('add')
 const subBtn = document.getElementById('sub')
 const asyncBtn = document.getElementById('async')
-const theme = document.getElementById('theme')
+const themeBtn = document.getElementById('theme')
 
 // создадим функцию createStore в отдельном файле.
 //создадим store
@@ -30,7 +30,7 @@ subBtn.addEventListener('click', () => {
 asyncBtn.addEventListener('click', () => {
   store.dispatch(async_increment())
 })
-theme.addEventListener('click', () => {
+themeBtn.addEventListener('click', () => {
   const newTheme = document.body.classList.contains('light') ? 'dark' : 'light'
   store.dispatch(changeTheme(newTheme))
   // document.body.classList.toggle('dark')
@@ -42,6 +42,9 @@ store.subscribe(() => {
   counter.textContent = state.counter
   //состояние темы
   document.body.className = state.theme.value
+  ;[addBtn, subBtn, themeBtn, asyncBtn].forEach(
+    btn => (btn.disabled = state.theme.disabled)
+  )
 })
 // чтобы отрисовался изналчальное значение 0, передадим в диспатч
 //объект action с несуществующим типом (по умолчанию вернется стейт)
