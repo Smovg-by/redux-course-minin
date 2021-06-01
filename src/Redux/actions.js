@@ -1,4 +1,4 @@
-import { DECREMENT, INCREMENT, ASYNC_INCREMENT } from './types'
+import { DECREMENT, INCREMENT, CHANGE_THEME } from './types'
 
 export function increment () {
   return {
@@ -10,6 +10,15 @@ export function decrement () {
     type: DECREMENT
   }
 }
+
+export function changeTheme (newTheme) {
+  return {
+    type: CHANGE_THEME,
+    // это свойство обычно называется payload
+    payload: newTheme
+  }
+}
+
 export function async_increment () {
   return function (dispatch) {
     setTimeout(() => {
