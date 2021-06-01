@@ -1,7 +1,8 @@
 import './styles.css'
 import thunk from 'redux-thunk'
 import logger from 'redux-logger'
-import { applyMiddleware, createStore } from 'redux'
+import { applyMiddleware, createStore, compose } from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
 import { rootReducer } from './Redux/rootReducer'
 import {
   increment,
@@ -19,8 +20,21 @@ const themeBtn = document.getElementById('theme')
 // создадим функцию createStore в отдельном файле.
 //создадим store
 
-const store = createStore(rootReducer, applyMiddleware(thunk, logger)) //внесены все middleware
+// const store = createStore(
+//   rootReducer,
 
+//   compose(
+//     applyMiddleware(thunk, logger), //внесены все middleware
+//     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+//   )
+// )
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(
+    applyMiddleware(thunk, logger)
+    // other store enhancers if any
+  )
+)
 addBtn.addEventListener('click', () => {
   store.dispatch(increment())
 })
